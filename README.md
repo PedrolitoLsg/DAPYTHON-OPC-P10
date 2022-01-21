@@ -20,4 +20,4 @@ python manage.py runserver
 
 ## How to Use:
 
-Check the API documentation [here](https://documenter.getpostman.com/view/18880001/UVRBnm9E), communication is done via json and the simplejwt token
+Check the [API documentation](https://documenter.getpostman.com/view/18880001/UVRBnm9E), communication is done via json and the simplejwt token
