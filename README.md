@@ -3,7 +3,7 @@
 
 ![image](https://user-images.githubusercontent.com/84906663/150554334-871922c6-85e9-4006-936a-39a9e3572986.png)
 
-SoftDesk is a [DRF API](https://www.django-rest-framework.org/) allowing users to create projects and discuss about it
+SoftDesk is the 10th Project of the [OPC training](https://openclassrooms.com/fr/paths/518-developpeur-dapplication-python). It consitutes of a [DRF API](https://www.django-rest-framework.org/) allowing users to create projects and discuss about it by creating issues and comments.
 
 
 ## Setup:
