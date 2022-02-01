@@ -30,4 +30,4 @@ python manage.py runserver
 ## How to Use:
 
 Check the [API documentation](https://documenter.getpostman.com/view/18880001/UVRBnm9E) to understand endpoints and their use.
-Communication is done through the use of json and the simplejwt token is used for authentication.
+Communication is done through the use of json and the [simplejwt token (5.00)](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/#) is used for authentication.
