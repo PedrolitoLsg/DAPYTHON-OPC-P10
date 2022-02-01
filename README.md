@@ -10,10 +10,19 @@ SoftDesk is a DRF API allowing users to create projects and discuss about it
 
 clone the project
 install required libraries:
+'''
 pipenv install -r requirements.txt
+'''
+
+navigate to projet10
+'''
+cd projet10
+'''
 
 launch server:
+'''
 python manage.py runserver
+'''
 
 
 
