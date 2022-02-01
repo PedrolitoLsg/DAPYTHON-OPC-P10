@@ -29,4 +29,5 @@ python manage.py runserver
 
 ## How to Use:
 
-Check the [API documentation](https://documenter.getpostman.com/view/18880001/UVRBnm9E), communication is done via json and the simplejwt token
+Check the [API documentation](https://documenter.getpostman.com/view/18880001/UVRBnm9E) to understand endpoints and their use.
+Communication is done through the use of json and the simplejwt token is used for authentication.
