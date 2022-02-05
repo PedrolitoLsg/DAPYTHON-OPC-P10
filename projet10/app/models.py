@@ -3,7 +3,6 @@ from django.contrib.auth.models import AbstractBaseUser
 from django.db.models import CharField, EmailField, ForeignKey, DateTimeField
 from django.contrib.auth.models import PermissionsMixin
 from django.contrib.auth import get_user_model
-# from django.contrib.auth import ImproperlyConfigured
 from .managers import CustomUsersManager
 from django.conf import settings
 
