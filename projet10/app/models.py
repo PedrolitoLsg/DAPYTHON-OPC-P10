@@ -31,19 +31,6 @@ class CustomUsers(AbstractBaseUser, PermissionsMixin):
     def is_staff(self):
         return self.staff
 
-    '''
-    @property
-    def is_anonymous(self):
-        """
-        Always return False. This is a way of comparing User objects to
-        anonymous users.
-        """
-        return False
-
-    @property
-    def is_authenticated(self):
-        return True
-'''
 
 
 class Projects(models.Model):
