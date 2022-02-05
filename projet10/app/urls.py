@@ -9,7 +9,6 @@ from .views import (
     UserRegistrationView,
     ContributorsDeletionView,
     SoloCommentView)
-    #  CustomTokenObtainPairView,)
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
