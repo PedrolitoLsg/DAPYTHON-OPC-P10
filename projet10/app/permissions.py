@@ -23,22 +23,6 @@ class HasContributorPermission(BasePermission):
         return False
 
 
-    """
-
-    def has_permission(self, request, view):
-        if Contributors.objects.filter(user=request.user).filter(project=view.kwargs['project_id']).exists():
-            return True
-        else:
-            return False
-
-    def has_object_permission(self, request, view, obj):
-        if request.method in owner_methods:
-            return obj.user == request.user
-        else:
-            message = 'Unauthorized request'
-            return message
-    """
-
 
 class HasProjectPermission(BasePermission):
     def has_permission(self, request, view):
