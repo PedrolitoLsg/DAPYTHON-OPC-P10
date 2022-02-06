@@ -31,7 +31,6 @@ class CustomUserSerializer(serializers.ModelSerializer):
         return user
 
 
-
 class ProjectSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -49,7 +48,6 @@ class ProjectWithIdSerializer(serializers.ModelSerializer):
         }
 
 
-
 class ContributorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contributors
@@ -59,6 +57,7 @@ class ContributorSerializer(serializers.ModelSerializer):
             'id': {'read_only': True},
             'role': {'read_only': True}
         }
+
 
 class IssueSerializer(serializers.ModelSerializer):
 
@@ -73,11 +72,11 @@ class IssueSerializer(serializers.ModelSerializer):
         }
 
 
-
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comments
-        fields = ['description', 'id', 'issue', 'author_user_id', 'created_time']
+        fields = ['description', 'id', 'issue',
+                  'author_user_id', 'created_time']
         extra_kwargs = {
             'id': {'read_only': True},
             'issue': {'read_only': True},
