@@ -6,7 +6,8 @@ class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUsers
         fields = ['first_name', 'last_name', 'email']
-        extra_kwargs = {'password': {'write_only': True}, 'id': {'read_only': True}}
+        extra_kwargs = {'password': {'write_only': True},
+                        'id': {'read_only': True}}
 
     def create_user(self, email, password, first_name=None, last_name=None):
         """Creates and saves a User with the given email and password."""
