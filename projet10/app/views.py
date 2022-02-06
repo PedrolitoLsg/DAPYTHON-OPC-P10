@@ -111,7 +111,7 @@ class ProjectsView (ModelViewSet):
         self.perform_destroy(waste)
         message = 'You deleted the project' + str(instance)
         return Response({'message': message},
-                        status=status.HTTP_202_ACCEPTED)
+                        status=status.HTTP_204_NO_CONTENT)
 
 
 # /project/id/users/ et /projects/id/users/id
@@ -152,7 +152,7 @@ class ContributorsDeletionView(ModelViewSet):
         self.check_object_permissions(self.request, obj)
         self.perform_destroy(obj)
         message = 'The contributor was successfully deleted '
-        return Response({'message': message}, status=status.HTTP_200_OK)
+        return Response({'message': message}, status=status.HTTP_204_NO_CONTENT)
 
 
 # /projects/id/issues/ and /projects/id/issues/id
@@ -265,4 +265,4 @@ class SoloCommentView(ModelViewSet):
         self.check_object_permissions(request, obj)
         self.perform_destroy(obj)
         message = 'The comment was successfully deleted'
-        return Response({'message': message}, status=status.HTTP_200_OK)
+        return Response({'message': message}, status=status.HTTP_204_NO_CONTENT)
