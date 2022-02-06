@@ -12,13 +12,10 @@ from .serializers import (ProjectSerializer,
 
 from .permissions import (HasProjectPermission,
                           HasContributorPermission,
-                          HasHomePermission,
                           HasIssuePermission,
                           HasCommentPermission)
 
 from django.shortcuts import get_object_or_404
-
-
 
 
 class UserRegistrationView(ModelViewSet):
@@ -37,8 +34,8 @@ class UserRegistrationView(ModelViewSet):
             userEmail = serializer.data.get('email')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 # /projects/
@@ -53,18 +50,23 @@ class HomeView(ModelViewSet):
     def list(self, request, *args, **kwargs):
         qs = Projects.objects.filter(contributors__user=request.user)
         serializer = ProjectWithIdSerializer(qs, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data,
+                        status=status.HTTP_200_OK)
 
     # from post method, creates a new project
     def create(self, request, *args, **kwargs):
         serializer = ProjectSerializer(data=request.data)
         if serializer.is_valid():
             project = serializer.save(author_user=request.user)
-            contributor = Contributors.objects.create(project=project, user=request.user, role='Author')
+            contributor = Contributors.objects.create(project=project,
+                                                      user=request.user,
+                                                      role='Author')
             contributor.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.data,
+                            status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 # /projects/{id}/
@@ -75,13 +77,13 @@ class ProjectsView (ModelViewSet):
     lookup_field = 'project_id'
     queryset = Projects.objects.all()
 
-
     def retrieve(self, request, *args, **kwargs):
         instance = Projects.objects.get(id=kwargs['project_id'])
         if Projects.objects.get(id=kwargs['project_id']):
             raw = Projects.objects.get(id=kwargs['project_id'])
             project = ProjectWithIdSerializer(raw, many=False)
-            return Response(project.data, status=status.HTTP_200_OK)
+            return Response(project.data,
+                            status=status.HTTP_200_OK)
 
     '''
     update project via its id follows a put method
@@ -90,11 +92,13 @@ class ProjectsView (ModelViewSet):
         obj = get_object_or_404(Projects, id=kwargs['project_id'])
         self.check_object_permissions(self.request, obj)
         instance = Projects.objects.get(id=kwargs['project_id'])
-        serializer = ProjectWithIdSerializer(instance, data=request.data, partial=True)
+        serializer = ProjectWithIdSerializer(instance,
+                                             data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.errors,
+                        status=status.HTTP_400_BAD_REQUEST)
 
     '''
     deletes project via its id thanks to delete method
@@ -106,8 +110,8 @@ class ProjectsView (ModelViewSet):
         waste = Projects.objects.filter(id=instance)
         self.perform_destroy(waste)
         message = 'You deleted the project' + str(instance)
-        return Response({'message': message}, status=status.HTTP_202_ACCEPTED)
-        # delete le project, et en cascade ca va delete les issues liéés, les contributors, les comments
+        return Response({'message': message},
+                        status=status.HTTP_202_ACCEPTED)
 
 
 # /project/id/users/ et /projects/id/users/id
@@ -118,11 +122,9 @@ class ContributorsView (ModelViewSet):
 
     '''gets the list of contributors for a specific project id'''
     def list(self, request, *args, **kwargs):
-        #  project_instance = Projects.objects.get(id=kwargs['project_id'])
         instances = Contributors.objects.filter(project=kwargs['project_id'])
         serializer = ContributorSerializer(instances, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
-
 
     '''creates a new contributor object '''
     def create(self, request, *args, **kwargs):
@@ -131,12 +133,11 @@ class ContributorsView (ModelViewSet):
         perso = CustomUsers.objects.get(id=request.data['user'])
         '''Vérifie que le user qui fait la request est l'author du project'''
         if serializer.is_valid():
-            serializer.save(project=instance_project, user=perso, role='Contributor')
+            serializer.save(project=instance_project,
+                            user=perso, role='Contributor')
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status=status.HTTP_200_OK)
-
-
 
 
 class ContributorsDeletionView(ModelViewSet):
@@ -150,8 +151,8 @@ class ContributorsDeletionView(ModelViewSet):
         obj = Contributors.objects.filter(project=project_instance).filter(user=user_instance)
         self.check_object_permissions(self.request, obj)
         self.perform_destroy(obj)
-        message ='The contributor was successfully deleted '
-        return Response({'message':message}, status=status.HTTP_202_ACCEPTED)
+        message = 'The contributor was successfully deleted '
+        return Response({'message': message}, status=status.HTTP_200_OK)
 
 
 # /projects/id/issues/ and /projects/id/issues/id
@@ -185,7 +186,6 @@ class IssuesView(ModelViewSet):
             message = 'The assignee user is not yet a contributor to this project'
             return Response({'message': message}, status=status.HTTP_200_OK)
 
-
     '''updates a specific issue, put method'''
     def update(self, request, *args, **kwargs):
         obj = Issues.objects.get(id=kwargs['issue_id'])
@@ -195,8 +195,6 @@ class IssuesView(ModelViewSet):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
-
-
 
     '''deletes an issue from specific project, delete method'''
     def destroy(self, request, *args, **kwargs):
@@ -227,7 +225,6 @@ class CommentsView(ModelViewSet):
         serializer = CommentSerializer(qs, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-
     '''creates a new comment on a specific issue'''
     def create(self, request, *args, **kwargs):
         issue_obj = Issues.objects.get(id=kwargs['issue_id'])
@@ -236,8 +233,8 @@ class CommentsView(ModelViewSet):
             serializer.save(issue=issue_obj, author_user_id=request.user)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
 
 
 class SoloCommentView(ModelViewSet):
