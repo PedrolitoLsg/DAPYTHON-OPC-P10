@@ -5,12 +5,6 @@ owner_methods = ("PUT", "DELETE")
 contrib_methods = ("POST", "GET")
 
 
-class HasHomePermission(BasePermission):
-
-    def has_permission(self, request, view):
-        return True
-
-
 class HasContributorPermission(BasePermission):
 
     def has_permission(self, request, view):
@@ -23,14 +17,12 @@ class HasContributorPermission(BasePermission):
         return False
 
 
-
 class HasProjectPermission(BasePermission):
     def has_permission(self, request, view):
         if Contributors.objects.filter(user=request.user).filter(project=view.kwargs['project_id']).exists():
             return True
         else:
             return False
-
 
     def has_object_permission(self, request, view, obj):
         if request.method in owner_methods:
@@ -65,4 +57,3 @@ class HasCommentPermission(BasePermission):
                 return True
         else:
             return request.user == obj.author_user_id
-
