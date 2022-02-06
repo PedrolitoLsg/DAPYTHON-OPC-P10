@@ -2,9 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser
 from django.db.models import CharField, EmailField, ForeignKey, DateTimeField
 from django.contrib.auth.models import PermissionsMixin
-from django.contrib.auth import get_user_model
 from .managers import CustomUsersManager
-from django.conf import settings
 
 
 class CustomUsers(AbstractBaseUser, PermissionsMixin):
@@ -15,8 +13,8 @@ class CustomUsers(AbstractBaseUser, PermissionsMixin):
     last_name = CharField(max_length=40)
     password = CharField(max_length=80)
     is_active = models.BooleanField(default=True)
-    staff = models.BooleanField(default=False)  # a admin user; non super-user
-    admin = models.BooleanField(default=False)  # a superuser
+    staff = models.BooleanField(default=False)
+    admin = models.BooleanField(default=False)
 
     objects = CustomUsersManager()
 
@@ -29,7 +27,6 @@ class CustomUsers(AbstractBaseUser, PermissionsMixin):
     @property
     def is_staff(self):
         return self.staff
-
 
 
 class Projects(models.Model):
@@ -90,7 +87,6 @@ class Issues(models.Model):
     author_user = ForeignKey(to=CustomUsers, on_delete=models.CASCADE, related_name='issue_author')
     assignee_user = ForeignKey(to=CustomUsers, on_delete=models.CASCADE, related_name='issue_assignee')
     created_time = DateTimeField(auto_now_add=True)
-
 
     def __str__(self):
         return self.title
